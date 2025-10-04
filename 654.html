@@ -1,0 +1,1626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Y4HK 25 - Finance Education & Reimbursement</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1a73e8 0%, #4285f4 100%);
+            color: white;
+            text-align: center;
+            padding: 60px 20px;
+            box-shadow: 0 4px 20px rgba(26, 115, 232, 0.3);
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .header p {
+            font-size: 1.5rem;
+            font-weight: 300;
+            opacity: 0.95;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 40px 20px;
+            flex-wrap: wrap;
+        }
+
+        .nav-button {
+            background: #1a73e8;
+            color: white;
+            border: none;
+            padding: 18px 32px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(26, 115, 232, 0.3);
+            min-width: 200px;
+            text-align: center;
+        }
+
+        .nav-button:hover {
+            background: #1557b0;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(26, 115, 232, 0.4);
+        }
+
+        .nav-button.active {
+            background: #0d47a1;
+            transform: translateY(-1px);
+        }
+
+        .content-area {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px 60px;
+        }
+
+        .question-bubble {
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #dadce0;
+            border-left: 4px solid #1a73e8;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.6s ease forwards;
+            position: relative;
+        }
+
+        .question-bubble:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 16px rgba(26, 115, 232, 0.12), 0 4px 8px rgba(0, 0, 0, 0.08);
+            border-left-color: #1557b0;
+        }
+
+        .question-bubble h3 {
+            color: #202124;
+            font-size: 1rem;
+            font-weight: 400;
+            margin-bottom: 8px;
+            line-height: 1.5;
+            transition: color 0.2s ease;
+        }
+
+        .question-bubble:hover h3 {
+            color: #1a73e8;
+        }
+
+        .interactive-hint {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 20px;
+            height: 20px;
+            background: #1a73e8;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .question-bubble:hover .interactive-hint {
+            opacity: 1;
+        }
+
+        .form-input-preview {
+            margin-top: 12px;
+            padding: 12px;
+            border: 1px solid #dadce0;
+            border-radius: 4px;
+            background: #f8f9fa;
+            font-size: 0.875rem;
+            color: #5f6368;
+            transition: all 0.2s ease;
+        }
+
+        .question-bubble:hover .form-input-preview {
+            border-color: #1a73e8;
+        }
+
+        .radio-options {
+            margin-top: 12px;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 0.875rem;
+            color: #202124;
+            transition: color 0.2s ease;
+        }
+
+        .question-bubble:hover .radio-option {
+            color: #1a73e8;
+        }
+
+        .radio-circle {
+            width: 16px;
+            height: 16px;
+            border: 2px solid #5f6368;
+            border-radius: 50%;
+            margin-right: 12px;
+            flex-shrink: 0;
+            transition: border-color 0.2s ease;
+        }
+
+        .question-bubble:hover .radio-circle {
+            border-color: #1a73e8;
+        }
+
+        .checkbox-square {
+            width: 16px;
+            height: 16px;
+            border: 2px solid #5f6368;
+            margin-right: 12px;
+            margin-top: 2px;
+            flex-shrink: 0;
+            transition: border-color 0.2s ease;
+        }
+
+        .question-bubble:hover .checkbox-square {
+            border-color: #1a73e8;
+        }
+
+        .required-indicator {
+            color: #ea4335;
+            font-weight: bold;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .question-bubble:nth-child(2) { animation-delay: 0.1s; }
+        .question-bubble:nth-child(3) { animation-delay: 0.2s; }
+        .question-bubble:nth-child(4) { animation-delay: 0.3s; }
+        .question-bubble:nth-child(5) { animation-delay: 0.4s; }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 1;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 20px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+
+        .modal-overlay.show .modal {
+            transform: scale(1);
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #1a73e8 0%, #4285f4 100%);
+            color: white;
+            padding: 25px 30px;
+            border-radius: 20px 20px 0 0;
+            position: relative;
+        }
+
+        .modal-header h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .close-button {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background 0.2s ease;
+        }
+
+        .close-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .modal-content {
+            padding: 30px;
+        }
+
+        .tip-box {
+            background: #e8f5e8;
+            border-left: 4px solid #34a853;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .warning-box {
+            background: #fef7e0;
+            border-left: 4px solid #fbbc04;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .error-box {
+            background: #fce8e6;
+            border-left: 4px solid #ea4335;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .modal-content h3 {
+            color: #1a73e8;
+            margin: 25px 0 15px 0;
+            font-size: 1.2rem;
+        }
+
+        .modal-content ul {
+            margin-left: 20px;
+            line-height: 1.8;
+        }
+
+        .modal-content li {
+            margin-bottom: 8px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Receipt Type Buttons */
+        .receipt-buttons-container {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+
+        .receipt-type-button {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            background: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 40px rgba(26, 115, 232, 0.2);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 6rem;
+            font-weight: 400;
+            line-height: 1;
+        }
+
+        .receipt-type-button.has-image {
+            padding: 0;
+            font-size: 1.2rem;
+        }
+
+        .receipt-type-button img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            pointer-events: none;
+            display: block;
+        }
+
+        .receipt-type-button:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 20px 60px rgba(26, 115, 232, 0.3);
+        }
+
+        .receipt-type-button:active {
+            transform: translateY(-5px) scale(1.02);
+        }
+
+        .receipt-type-button.floating {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-15px);
+            }
+        }
+
+        .button-label {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            color: #202124;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .header p {
+                font-size: 1.2rem;
+            }
+            
+            .navigation {
+                gap: 15px;
+            }
+            
+            .nav-button {
+                min-width: 150px;
+                font-size: 0.9rem;
+                padding: 15px 25px;
+            }
+            
+            .modal {
+                width: 95%;
+                margin: 20px;
+            }
+            
+            .modal-content {
+                padding: 20px;
+            }
+
+            .receipt-type-button {
+                width: 150px;
+                height: 150px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Y4HK 25</h1>
+        <p>Finance Education & Reimbursement</p>
+    </div>
+
+    <div class="navigation">
+        <button class="nav-button active" data-section="personal">Part 1: Personal Info</button>
+        <button class="nav-button" data-section="receipt">Part 2: Receipt</button>
+        <button class="nav-button" data-section="items">Part 3: Items</button>
+        <button class="nav-button" data-section="bank">Part 4: Bank Info</button>
+        <button class="nav-button" data-section="receipt-types">Part 5: Declaration</button>
+        <button class="nav-button" data-section="practice">Part 6: Practice Form</button>
+    </div>
+
+    <div class="content-area">
+        <!-- Personal Info Section -->
+        <div class="section" id="personal">
+            <div class="question-bubble" data-modal="name">
+                <div class="question-bubble-content">
+                    <h3>Name (e.g. Suen Chin Wang Peter) <span class="required-indicator">*</span></h3>
+                    <div class="form-input-preview">Short answer text</div>
+                </div>
+                <div class="interactive-hint">?</div>
+            </div>
+            
+            <div class="question-bubble" data-modal="team">
+                <div class="question-bubble-content">
+                    <h3>Team <span class="required-indicator">*</span></h3>
+                    <div class="radio-options">
+                        <div class="radio-option">
+                            <div class="radio-circle"></div>
+                            <span>CM</span>
+                        </div>
+                        <div class="radio-option">
+                            <div class="radio-circle"></div>
+                            <span>OCP</span>
+                        </div>
+                        <div class="radio-option">
+                            <div class="radio-circle"></div>
+                            <span>Logistics</span>
+                        </div>
+                        <div class="radio-option">
+                            <div class="radio-circle"></div>
+                            <span>Delegate Servicing</span>
+                        </div>
+                        <div class="radio-option">
+                            <div class="radio-circle"></div>
+                            <span>Marketing</span>
+                        </div>
+                        <div class="radio-option">
+                            <div class="radio-circle"></div>
+                            <span>External Relations</span>
+                        </div>
+                        <div class="radio-option">
+                            <div class="radio-circle"></div>
+                            <span>Finance</span>
+                        </div>
+                        <div class="radio-option">
+                            <div class="radio-circle"></div>
+                            <span>Agenda Team</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="interactive-hint">?</div>
+            </div>
+            
+            <div class="question-bubble" data-modal="phone">
+                <div class="question-bubble-content">
+                    <h3>Phone Number (country number (phone number)) <span class="required-indicator">*</span></h3>
+                    <div class="form-input-preview">Short answer text</div>
+                </div>
+                <div class="interactive-hint">?</div>
+            </div>
+        </div>
+
+        <!-- Receipt Section -->
+        <div class="section hidden" id="receipt">
+            <div class="question-bubble" data-modal="receipt-description">
+                <div class="question-bubble-content">
+                    <h3>Receipt</h3>
+                    <p style="color: #5f6368; font-size: 0.875rem; margin: 8px 0;">Description (optional)</p>
+                    <div class="form-input-preview">Long answer text</div>
+                </div>
+                <div class="interactive-hint">?</div>
+            </div>
+            
+            <div class="question-bubble" data-modal="receipt-upload">
+                <div class="question-bubble-content">
+                    <h3>Please upload soft copy of the receipt for proof (PDF/Image File only) <span class="required-indicator">*</span></h3>
+                    <p style="color: #5f6368; font-size: 0.875rem; margin: 8px 0;">Please name the file as Name_no. , e.g. Peter_01</p>
+                    <div class="file-upload-preview">
+                        <div style="display: flex; align-items: center; gap: 8px; padding: 12px; border: 1px solid #dadce0; border-radius: 4px; background: #f8f9fa;">
+                            <span style="color: #5f6368; font-size: 0.875rem;">Add file</span>
+                            <div style="flex: 1;"></div>
+                            <span style="color: #1a73e8; font-size: 0.875rem;">View folder</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="interactive-hint">?</div>
+            </div>
+            
+            <div class="question-bubble" data-modal="expense-date">
+                <div class="question-bubble-content">
+                    <h3>Date of Expense Incurred <span class="required-indicator">*</span></h3>
+                    <div class="date-input-preview">
+                        <div style="display: flex; align-items: center; gap: 8px; padding: 12px; border: 1px solid #dadce0; border-radius: 4px; background: #f8f9fa;">
+                            <span style="color: #5f6368; font-size: 0.875rem;">Month, day, year</span>
+                            <div style="flex: 1;"></div>
+                            <span style="color: #5f6368; font-size: 1rem;">[calendar]</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="interactive-hint">?</div>
+            </div>
+            
+            <div class="question-bubble" data-modal="company-name">
+                <div class="question-bubble-content">
+                    <h3>Company Name <span class="required-indicator">*</span></h3>
+                    <div class="form-input-preview">Long answer text</div>
+                </div>
+                <div class="interactive-hint">?</div>
+            </div>
+        </div>
+
+        <!-- Items Section -->
+        <div class="section hidden" id="items">
+            <div class="question-bubble" data-modal="items-description">
+                <div class="question-bubble-content">
+                    <h3>Items</h3>
+                    <p style="color: #5f6368; font-size: 0.875rem; margin: 8px 0;">Description (optional)</p>
+                    <div class="form-input-preview">Long answer text</div>
+                </div>
+                <div class="interactive-hint">?</div>
+            </div>
+            
+            <div class="question-bubble" data-modal="item-name">
+                <div class="question-bubble-content">
+                    <h3>Item 1 Name <span class="required-indicator">*</span></h3>
+                    <div class="form-input-preview">Short answer text</div>
+                </div>
+                <div class="interactive-hint">?</div>
+            </div>
+            
+            <div class="question-bubble" data-modal="expense-type">
+                <div class="question-bubble-content">
+                    <h3>Type of Expense of Item 1 <span class="required-indicator">*</span></h3>
+                    <div class="radio-options">
+                        <div class="radio-option">
+                            <div class="radio-circle"></div>
+                            <span>Stationary</span>
+                        </div>
+                        <div class="radio-option">
+                            <div class="radio-circle"></div>
+                            <span>Printing</span>
+                        </div>
+                        <div class="radio-option">
+                            <div class="radio-circle"></div>
+                            <span>Decoration</span>
+                        </div>
+                        <div class="radio-option">
+                            <div class="radio-circle"></div>
+                            <span>Session material</span>
+                        </div>
+                        <div class="radio-option">
+                            <div class="radio-circle"></div>
+                            <span>Food and beverage</span>
+                        </div>
+                        <div class="radio-option">
+                            <div class="radio-circle"></div>
+                            <span>Souvenir</span>
+                        </div>
+                        <div class="radio-option">
+                            <div class="radio-circle"></div>
+                            <span>Logistic</span>
+                        </div>
+                        <div class="radio-option">
+                            <div class="radio-circle"></div>
+                            <span>Other:</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="interactive-hint">?</div>
+            </div>
+            
+            <div class="question-bubble" data-modal="item-price">
+                <div class="question-bubble-content">
+                    <h3>Price of Item 1 <span class="required-indicator">*</span></h3>
+                    <p style="color: #5f6368; font-size: 0.875rem; margin: 8px 0;">Please fill in the total amount of this item (e.g apple x2 = $10, input 10)</p>
+                    <div class="form-input-preview">Short answer text</div>
+                </div>
+                <div class="interactive-hint">?</div>
+            </div>
+        </div>
+
+        <!-- Bank Info Section -->
+        <div class="section hidden" id="bank">
+            <div class="question-bubble" data-modal="bank-description">
+                <div class="question-bubble-content">
+                    <h3>Bank information</h3>
+                    <p style="color: #5f6368; font-size: 0.875rem; margin: 8px 0;">Description (optional)</p>
+                    <div class="form-input-preview">Long answer text</div>
+                </div>
+                <div class="interactive-hint">?</div>
+            </div>
+            
+            <div class="question-bubble" data-modal="total-amount">
+                <div class="question-bubble-content">
+                    <h3>Total of Reimbursement Amount <span class="required-indicator">*</span></h3>
+                    <div class="form-input-preview">Short answer text</div>
+                </div>
+                <div class="interactive-hint">?</div>
+            </div>
+            
+            <div class="question-bubble" data-modal="account-name">
+                <div class="question-bubble-content">
+                    <h3>Bank Account Name <span class="required-indicator">*</span></h3>
+                    <div class="form-input-preview">Short answer text</div>
+                </div>
+                <div class="interactive-hint">?</div>
+            </div>
+            
+            <div class="question-bubble" data-modal="account-number">
+                <div class="question-bubble-content">
+                    <h3>Bank Account Number <span class="required-indicator">*</span></h3>
+                    <div class="form-input-preview">Short answer text</div>
+                </div>
+                <div class="interactive-hint">?</div>
+            </div>
+            
+            <div class="question-bubble" data-modal="bank-branch">
+                <div class="question-bubble-content">
+                    <h3>Bank Branch <span class="required-indicator">*</span></h3>
+                    <div class="radio-options">
+                        <div class="radio-option">
+                            <div class="radio-circle"></div>
+                            <span>Bank of China (BOC)</span>
+                        </div>
+                        <div class="radio-option">
+                            <div class="radio-circle"></div>
+                            <span>Hang Seng Bank</span>
+                        </div>
+                        <div class="radio-option">
+                            <div class="radio-circle"></div>
+                            <span>HSBC</span>
+                        </div>
+                        <div class="radio-option">
+                            <div class="radio-circle"></div>
+                            <span>Standard Charter</span>
+                        </div>
+                        <div class="radio-option">
+                            <div class="radio-circle"></div>
+                            <span>DBS</span>
+                        </div>
+                        <div class="radio-option">
+                            <div class="radio-circle"></div>
+                            <span>BEA</span>
+                        </div>
+                        <div class="radio-option">
+                            <div class="radio-circle"></div>
+                            <span>Other:</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="interactive-hint">?</div>
+            </div>
+        </div>
+
+        <!-- Receipt Types Section -->
+        <div class="section hidden" id="receipt-types">
+            <div class="question-bubble" data-modal="declaration-description">
+                <div class="question-bubble-content">
+                    <h3>Declaration</h3>
+                    <p style="color: #5f6368; font-size: 0.875rem; margin: 8px 0;">Description (optional)</p>
+                    <div class="form-input-preview">Long answer text</div>
+                </div>
+                <div class="interactive-hint">?</div>
+            </div>
+            
+            <div class="question-bubble" data-modal="declaration-conditions">
+                <div class="question-bubble-content">
+                    <h3>I understand that full reimbursement would be granted only if all of the following conditions have been fulfilled: <span class="required-indicator">*</span></h3>
+                    <div class="checkbox-options" style="margin-top: 12px;">
+                        <div class="checkbox-option" style="display: flex; align-items: flex-start; margin-bottom: 12px;">
+                            <div class="checkbox-square"></div>
+                            <span style="font-size: 0.875rem; color: #202124; line-height: 1.4;">I submit this form within 7 days of the purchase.</span>
+                        </div>
+                        <div class="checkbox-option" style="display: flex; align-items: flex-start; margin-bottom: 12px;">
+                            <div class="checkbox-square"></div>
+                            <span style="font-size: 0.875rem; color: #202124; line-height: 1.4;">I have attached corresponding digital receipts for the items above and have submitted/would submit physical receipts to the finance team.</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="interactive-hint">?</div>
+            </div>
+
+            <!-- Receipt Type Selection -->
+            <div style="background: white; border-radius: 8px; border: 1px solid #dadce0; padding: 30px; margin-top: 30px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);">
+                <h2 style="color: #1a73e8; text-align: center; margin-bottom: 10px; font-size: 1.5rem;">Receipt Guide</h2>
+                <p style="text-align: center; color: #5f6368; margin-bottom: 30px;">Select your receipt type to view detailed instructions</p>
+                
+                <div class="receipt-buttons-container">
+                    <div style="text-align: center;">
+                        <button class="receipt-type-button floating" data-receipt-type="physical">
+                            <img src="https://images.unsplash.com/photo-1554224311-beee460201f9?w=400&h=400&fit=crop" alt="Physical Receipt">
+                        </button>
+                        <div class="button-label">Physical Store</div>
+                    </div>
+                    
+                    <div style="text-align: center;">
+                        <button class="receipt-type-button floating" data-receipt-type="online">
+                            <img src="https://i.imgur.com/9vYQXKZ.png" alt="Online Receipt">
+                        </button>
+                        <div class="button-label">Online Purchase</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Practice Form Section -->
+        <div class="section hidden" id="practice">
+            <div style="background: linear-gradient(135deg, #34a853 0%, #5cb85c 100%); color: white; padding: 30px; border-radius: 12px; margin-bottom: 30px; text-align: center;">
+                <h2 style="font-size: 2rem; margin-bottom: 10px;">Practice Form</h2>
+                <p style="font-size: 1.1rem; opacity: 0.95;">Try filling out the form here - it's just for practice!</p>
+                <p style="font-size: 0.9rem; margin-top: 10px; opacity: 0.9;">Note: This is a simulation. Nothing will be actually submitted.</p>
+            </div>
+
+            <form id="practiceForm" style="background: white; border-radius: 12px; padding: 40px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+                <!-- Personal Info -->
+                <div style="border-left: 4px solid #1a73e8; padding-left: 20px; margin-bottom: 30px;">
+                    <h3 style="color: #1a73e8; margin-bottom: 20px;">Personal Information</h3>
+                    
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; margin-bottom: 8px; color: #202124; font-weight: 500;">
+                            Name <span style="color: #ea4335;">*</span>
+                        </label>
+                        <input type="text" placeholder="e.g. Suen Chin Wang Peter" style="width: 100%; padding: 12px; border: 1px solid #dadce0; border-radius: 4px; font-size: 1rem; font-family: inherit;">
+                    </div>
+
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; margin-bottom: 8px; color: #202124; font-weight: 500;">
+                            Team <span style="color: #ea4335;">*</span>
+                        </label>
+                        <select style="width: 100%; padding: 12px; border: 1px solid #dadce0; border-radius: 4px; font-size: 1rem; font-family: inherit;">
+                            <option value="">Select your team</option>
+                            <option value="CM">CM</option>
+                            <option value="OCP">OCP</option>
+                            <option value="Logistics">Logistics</option>
+                            <option value="Delegate Servicing">Delegate Servicing</option>
+                            <option value="Marketing">Marketing</option>
+                            <option value="External Relations">External Relations</option>
+                            <option value="Finance">Finance</option>
+                            <option value="Agenda Team">Agenda Team</option>
+                        </select>
+                    </div>
+
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; margin-bottom: 8px; color: #202124; font-weight: 500;">
+                            Phone Number <span style="color: #ea4335;">*</span>
+                        </label>
+                        <input type="text" placeholder="+852 (1234 5678)" style="width: 100%; padding: 12px; border: 1px solid #dadce0; border-radius: 4px; font-size: 1rem; font-family: inherit;">
+                    </div>
+                </div>
+
+                <!-- Receipt Info -->
+                <div style="border-left: 4px solid #34a853; padding-left: 20px; margin-bottom: 30px;">
+                    <h3 style="color: #34a853; margin-bottom: 20px;">Receipt Information</h3>
+                    
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; margin-bottom: 8px; color: #202124; font-weight: 500;">
+                            Receipt Description (optional)
+                        </label>
+                        <textarea placeholder="Add any notes about your receipt..." style="width: 100%; padding: 12px; border: 1px solid #dadce0; border-radius: 4px; font-size: 1rem; font-family: inherit; min-height: 80px;"></textarea>
+                    </div>
+
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; margin-bottom: 8px; color: #202124; font-weight: 500;">
+                            Upload Receipt (PDF/Image) <span style="color: #ea4335;">*</span>
+                        </label>
+                        <div style="padding: 20px; border: 2px dashed #dadce0; border-radius: 4px; text-align: center; background: #f8f9fa; cursor: pointer;">
+                            <input type="file" accept="image/*,.pdf" style="display: none;" id="receiptFile">
+                            <label for="receiptFile" style="cursor: pointer; color: #1a73e8;">
+                                Click to upload or drag and drop<br>
+                                <span style="color: #5f6368; font-size: 0.875rem;">Remember to name as YourName_01</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; margin-bottom: 8px; color: #202124; font-weight: 500;">
+                            Date of Expense <span style="color: #ea4335;">*</span>
+                        </label>
+                        <input type="date" style="width: 100%; padding: 12px; border: 1px solid #dadce0; border-radius: 4px; font-size: 1rem; font-family: inherit;">
+                    </div>
+
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; margin-bottom: 8px; color: #202124; font-weight: 500;">
+                            Company Name <span style="color: #ea4335;">*</span>
+                        </label>
+                        <input type="text" placeholder="e.g. IKEA Causeway Bay" style="width: 100%; padding: 12px; border: 1px solid #dadce0; border-radius: 4px; font-size: 1rem; font-family: inherit;">
+                    </div>
+                </div>
+
+                <!-- Items -->
+                <div style="border-left: 4px solid #fbbc04; padding-left: 20px; margin-bottom: 30px;">
+                    <h3 style="color: #fbbc04; margin-bottom: 20px;">Items</h3>
+                    
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; margin-bottom: 8px; color: #202124; font-weight: 500;">
+                            Item 1 Name <span style="color: #ea4335;">*</span>
+                        </label>
+                        <input type="text" placeholder="e.g. A4 Paper (500 sheets)" style="width: 100%; padding: 12px; border: 1px solid #dadce0; border-radius: 4px; font-size: 1rem; font-family: inherit;">
+                    </div>
+
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; margin-bottom: 8px; color: #202124; font-weight: 500;">
+                            Type of Expense <span style="color: #ea4335;">*</span>
+                        </label>
+                        <select style="width: 100%; padding: 12px; border: 1px solid #dadce0; border-radius: 4px; font-size: 1rem; font-family: inherit;">
+                            <option value="">Select expense type</option>
+                            <option value="Stationary">Stationary</option>
+                            <option value="Printing">Printing</option>
+                            <option value="Decoration">Decoration</option>
+                            <option value="Session material">Session material</option>
+                            <option value="Food and beverage">Food and beverage</option>
+                            <option value="Souvenir">Souvenir</option>
+                            <option value="Logistic">Logistic</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; margin-bottom: 8px; color: #202124; font-weight: 500;">
+                            Price of Item 1 <span style="color: #ea4335;">*</span>
+                        </label>
+                        <input type="number" placeholder="e.g. 150" style="width: 100%; padding: 12px; border: 1px solid #dadce0; border-radius: 4px; font-size: 1rem; font-family: inherit;">
+                        <span style="color: #5f6368; font-size: 0.875rem;">Enter total amount (e.g. apple x2 = $10, input 10)</span>
+                    </div>
+                </div>
+
+                <!-- Bank Info -->
+                <div style="border-left: 4px solid #ea4335; padding-left: 20px; margin-bottom: 30px;">
+                    <h3 style="color: #ea4335; margin-bottom: 20px;">Bank Information</h3>
+                    
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; margin-bottom: 8px; color: #202124; font-weight: 500;">
+                            Total Reimbursement Amount <span style="color: #ea4335;">*</span>
+                        </label>
+                        <input type="number" placeholder="e.g. 150" style="width: 100%; padding: 12px; border: 1px solid #dadce0; border-radius: 4px; font-size: 1rem; font-family: inherit;">
+                    </div>
+
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; margin-bottom: 8px; color: #202124; font-weight: 500;">
+                            Bank Account Name <span style="color: #ea4335;">*</span>
+                        </label>
+                        <input type="text" placeholder="e.g. Peter Chan" style="width: 100%; padding: 12px; border: 1px solid #dadce0; border-radius: 4px; font-size: 1rem; font-family: inherit;">
+                    </div>
+
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; margin-bottom: 8px; color: #202124; font-weight: 500;">
+                            Bank Account Number <span style="color: #ea4335;">*</span>
+                        </label>
+                        <input type="text" placeholder="e.g. 571 3510 1147 5057" style="width: 100%; padding: 12px; border: 1px solid #dadce0; border-radius: 4px; font-size: 1rem; font-family: inherit;">
+                    </div>
+
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; margin-bottom: 8px; color: #202124; font-weight: 500;">
+                            Bank Branch <span style="color: #ea4335;">*</span>
+                        </label>
+                        <select style="width: 100%; padding: 12px; border: 1px solid #dadce0; border-radius: 4px; font-size: 1rem; font-family: inherit;">
+                            <option value="">Select your bank</option>
+                            <option value="BOC">Bank of China (BOC)</option>
+                            <option value="Hang Seng">Hang Seng Bank</option>
+                            <option value="HSBC">HSBC</option>
+                            <option value="Standard Charter">Standard Charter</option>
+                            <option value="DBS">DBS</option>
+                            <option value="BEA">BEA</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Declaration -->
+                <div style="border-left: 4px solid #9c27b0; padding-left: 20px; margin-bottom: 30px;">
+                    <h3 style="color: #9c27b0; margin-bottom: 20px;">Declaration</h3>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <label style="display: flex; align-items: flex-start; cursor: pointer;">
+                            <input type="checkbox" style="margin-right: 12px; margin-top: 4px; width: 18px; height: 18px;">
+                            <span style="color: #202124;">I submit this form within 7 days of the purchase.</span>
+                        </label>
+                    </div>
+
+                    <div style="margin-bottom: 15px;">
+                        <label style="display: flex; align-items: flex-start; cursor: pointer;">
+                            <input type="checkbox" style="margin-right: 12px; margin-top: 4px; width: 18px; height: 18px;">
+                            <span style="color: #202124;">I have attached corresponding digital receipts for the items above and have submitted/would submit physical receipts to the finance team.</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div style="text-align: center; margin-top: 40px;">
+                    <button type="submit" style="background: linear-gradient(135deg, #1a73e8 0%, #4285f4 100%); color: white; border: none; padding: 18px 60px; border-radius: 50px; font-size: 1.2rem; font-weight: 600; cursor: pointer; box-shadow: 0 4px 20px rgba(26, 115, 232, 0.4); transition: all 0.3s ease;">
+                        Submit Practice Form
+                    </button>
+                    <p style="color: #5f6368; font-size: 0.875rem; margin-top: 15px;">Remember: This is just practice. Nothing will be actually submitted!</p>
+                </div>
+            </form>
+
+            <!-- Success Message (hidden by default) -->
+            <div id="practiceSuccess" style="display: none; background: linear-gradient(135deg, #34a853 0%, #5cb85c 100%); color: white; padding: 40px; border-radius: 12px; margin-top: 30px; text-align: center; animation: fadeInUp 0.6s ease;">
+                <div style="font-size: 4rem; margin-bottom: 20px;">🎉</div>
+                <h2 style="font-size: 2rem; margin-bottom: 15px;">Great Job!</h2>
+                <p style="font-size: 1.2rem; margin-bottom: 10px;">You've completed the practice form successfully!</p>
+                <p style="font-size: 1rem; opacity: 0.95;">Now you're ready to fill out the real reimbursement form with confidence.</p>
+                <button onclick="resetPracticeForm()" style="background: white; color: #34a853; border: none; padding: 12px 30px; border-radius: 25px; font-size: 1rem; font-weight: 600; cursor: pointer; margin-top: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.2);">
+                    Try Again
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Overlay -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 id="modalTitle">Question Details</h2>
+                <button class="close-button" id="closeModal">×</button>
+            </div>
+            <div class="modal-content" id="modalContent">
+                <!-- Content will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Navigation functionality
+        const navButtons = document.querySelectorAll('.nav-button');
+        const sections = document.querySelectorAll('.section');
+
+        navButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const targetSection = button.dataset.section;
+                
+                navButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                
+                sections.forEach(section => {
+                    section.classList.add('hidden');
+                });
+                document.getElementById(targetSection).classList.remove('hidden');
+            });
+        });
+
+        // Modal functionality
+        const modal = document.getElementById('modalOverlay');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalContent = document.getElementById('modalContent');
+        const closeButton = document.getElementById('closeModal');
+        const questionBubbles = document.querySelectorAll('.question-bubble');
+
+        // Modal content data
+        const modalData = {
+            'name': {
+                title: 'Name Field Instructions',
+                content: `
+                    <h3>How to fill in your name:</h3>
+                    <ul>
+                        <li>Enter your <strong>full name</strong> as shown in the example</li>
+                        <li>Include both your <strong>English name and Chinese name</strong> if applicable</li>
+                        <li>Format: "Surname First Name (Preferred Name)" if needed</li>
+                        <li>Example: "Suen Chin Wang Peter" or "Li Cheuk Yiu (Yoyo)"</li>
+                    </ul>
+                    <div class="tip-box">
+                        <strong>Tip:</strong> Use the same name format as your official documents to avoid confusion.
+                    </div>
+                `
+            },
+            'team': {
+                title: 'Team Selection Guide',
+                content: `
+                    <h3>Select your team from the following options:</h3>
+                    <ul>
+                        <li><strong>CM:</strong> Conference Management</li>
+                        <li><strong>OCP:</strong> Organizing Committee Program</li>
+                        <li><strong>Logistics:</strong> Event logistics and coordination</li>
+                        <li><strong>Delegate Servicing:</strong> Participant support and services</li>
+                        <li><strong>Marketing:</strong> Promotion and marketing activities</li>
+                        <li><strong>External Relations:</strong> Partnership and external communications</li>
+                        <li><strong>Finance:</strong> Financial management and accounting</li>
+                        <li><strong>Agenda Team:</strong> Program planning and scheduling</li>
+                    </ul>
+                    <div class="warning-box">
+                        <strong>Important:</strong> Select the team that matches your current assignment for this conference.
+                    </div>
+                `
+            },
+            'phone': {
+                title: 'Phone Number Requirements',
+                content: `
+                    <h3>Phone number format guidelines:</h3>
+                    <ul>
+                        <li>Include <strong>country code</strong> followed by your phone number</li>
+                        <li>Format: "Country Code (Phone Number)"</li>
+                        <li>Example: "+852 (1234 5678)" for Hong Kong numbers</li>
+                        <li>Ensure the number can receive <strong>WhatsApp messages</strong></li>
+                    </ul>
+                    <div class="tip-box">
+                        <strong>Why this format?</strong> This helps us contact you quickly for any reimbursement queries or updates.
+                    </div>
+                    <div class="warning-box">
+                        <strong>Double-check:</strong> Make sure your number is active and can receive international messages if needed.
+                    </div>
+                `
+            },
+            'receipt-description': {
+                title: 'Receipt Description Field',
+                content: `
+                    <h3>About the description field:</h3>
+                    <ul>
+                        <li>This field is <strong>optional</strong> - you can leave it blank</li>
+                        <li>Use it to add context about your receipt if needed</li>
+                        <li>Helpful for complex receipts with multiple purposes</li>
+                        <li>Keep descriptions brief and relevant</li>
+                    </ul>
+                    <div class="tip-box">
+                        <strong>Example:</strong> "Conference materials from office supply store" or "Catering for workshop lunch"
+                    </div>
+                `
+            },
+            'receipt-upload': {
+                title: 'Select Your Receipt Type',
+                content: `
+                    <div style="text-align: center; padding: 20px 0;">
+                        <h3 style="color: #202124; margin-bottom: 20px;">Choose the type of receipt you have:</h3>
+                        <p style="color: #5f6368; margin-bottom: 40px;">Different receipt types require different submission methods</p>
+                        
+                        <div class="receipt-buttons-container">
+                            <div style="text-align: center;">
+                                <button class="receipt-type-button floating" data-receipt-type="physical">
+                                    🧾
+                                </button>
+                                <div class="button-label">Physical Store</div>
+                            </div>
+                            
+                            <div style="text-align: center;">
+                                <button class="receipt-type-button floating" data-receipt-type="online">
+                                    🛒
+                                </button>
+                                <div class="button-label">Online Purchase</div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            'expense-date': {
+                title: 'Date of Expense Guidelines',
+                content: `
+                    <h3>When to enter the expense date:</h3>
+                    <ul>
+                        <li>Use the <strong>date when you made the purchase</strong>, not when you submit the form</li>
+                        <li>Check the receipt for the exact transaction date</li>
+                        <li>Format: Month, day, year (as shown in the date picker)</li>
+                        <li>This date should match what appears on your receipt</li>
+                    </ul>
+                    <div class="tip-box">
+                        <strong>Why this matters:</strong> Accurate dates help with financial tracking and ensure expenses are recorded in the correct period.
+                    </div>
+                    <div class="warning-box">
+                        <strong>Double-check:</strong> Make sure the date matches your receipt exactly.
+                    </div>
+                `
+            },
+            'company-name': {
+                title: 'Company Name Requirements',
+                content: `
+                    <h3>What to enter for company name:</h3>
+                    <ul>
+                        <li>Enter the <strong>full business name</strong> as it appears on the receipt</li>
+                        <li>Include specific location if there are multiple branches</li>
+                        <li>For online purchases, use the official company name</li>
+                        <li>Be as specific as possible for identification purposes</li>
+                    </ul>
+                    <div class="tip-box">
+                        <strong>Good examples:</strong> "IKEA Causeway Bay", "7-Eleven Central Station", "Taobao (online)", "Wellcome Supermarket"
+                    </div>
+                    <div class="tip-box">
+                        <strong>For online stores:</strong> Use the official business name, not just the website name (e.g., "Alibaba Group" instead of just "Taobao")
+                    </div>
+                `
+            },
+            'items-description': {
+                title: 'Items Description Field',
+                content: `
+                    <h3>About the items description:</h3>
+                    <ul>
+                        <li>This field is <strong>optional</strong> - you can leave it blank</li>
+                        <li>Use it to provide general context about all items in this submission</li>
+                        <li>Helpful when multiple items serve the same purpose</li>
+                        <li>Keep descriptions brief and relevant to the conference</li>
+                    </ul>
+                    <div class="tip-box">
+                        <strong>Example:</strong> "Materials for workshop activity stations" or "Catering supplies for day 2 lunch"
+                    </div>
+                `
+            },
+            'item-name': {
+                title: 'Item Name Guidelines',
+                content: `
+                    <h3>How to name your items:</h3>
+                    <ul>
+                        <li>Be <strong>specific and descriptive</strong></li>
+                        <li>Include brand names, sizes, or quantities if relevant</li>
+                        <li>Use clear, understandable terms</li>
+                        <li>Avoid abbreviations that might be unclear</li>
+                    </ul>
+                    <div class="tip-box">
+                        <strong>Good examples:</strong> "A4 Paper (500 sheets)", "Copic Markers Set (12 colors)", "Conference Banner 3x2m"
+                    </div>
+                    <div class="warning-box">
+                        <strong>Remember:</strong> Maximum 10 items per response. Submit additional forms if you have more items.
+                    </div>
+                `
+            },
+            'expense-type': {
+                title: 'Expense Type Categories',
+                content: `
+                    <h3>Select the most appropriate category:</h3>
+                    <ul>
+                        <li><strong>Stationary:</strong> Pens, paper, folders, notebooks, office supplies</li>
+                        <li><strong>Printing:</strong> Banners, flyers, handouts, name tags, certificates</li>
+                        <li><strong>Decoration:</strong> Balloons, streamers, props, backdrop materials</li>
+                        <li><strong>Session material:</strong> Workshop supplies, flipcharts, presentation tools</li>
+                        <li><strong>Food and beverage:</strong> Catering, snacks, drinks, meals</li>
+                        <li><strong>Souvenir:</strong> Gifts, branded items, giveaways, conference merchandise</li>
+                        <li><strong>Logistic:</strong> Transportation, venue costs, equipment rental</li>
+                        <li><strong>Other:</strong> Items not fitting the above categories</li>
+                    </ul>
+                    <div class="tip-box">
+                        <strong>Tip:</strong> Choose the category that best describes the primary purpose of the item.
+                    </div>
+                `
+            },
+            'item-price': {
+                title: 'Item Price Calculation',
+                content: `
+                    <h3>How to calculate and enter the price:</h3>
+                    <ul>
+                        <li>Enter the <strong>total amount</strong> for this specific item</li>
+                        <li>If buying multiple quantities: quantity × unit price = total</li>
+                        <li>Use numbers only (no currency symbols like $ or HKD)</li>
+                        <li>Include any applicable taxes in the total</li>
+                    </ul>
+                    <div class="tip-box">
+                        <strong>Example:</strong> Apple x2 = $10, enter "10" (not "$10" or "10 dollars")
+                    </div>
+                    <div class="warning-box">
+                        <strong>Important:</strong> This amount should match exactly what appears on your receipt for this item.
+                    </div>
+                    <div class="error-box">
+                        <strong>Remember:</strong> Maximum 10 items per response. One response covers one function only.
+                    </div>
+                `
+            },
+            'bank-description': {
+                title: 'Bank Information Description',
+                content: `
+                    <h3>About the bank information description:</h3>
+                    <ul>
+                        <li>This field is <strong>optional</strong> - you can leave it blank</li>
+                        <li>Use it to add any special notes about your banking details</li>
+                        <li>Helpful if you have multiple accounts or special circumstances</li>
+                        <li>Keep descriptions brief and relevant</li>
+                    </ul>
+                    <div class="tip-box">
+                        <strong>Example:</strong> "Primary business account" or "Joint account with spouse"
+                    </div>
+                `
+            },
+            'total-amount': {
+                title: 'Total Reimbursement Amount',
+                content: `
+                    <h3>Calculate your total reimbursement:</h3>
+                    <ul>
+                        <li>Sum <strong>all item prices</strong> from the Items section</li>
+                        <li>Double-check your math for accuracy</li>
+                        <li>This should match the <strong>total on your receipt</strong></li>
+                        <li>Use numbers only (no currency symbols)</li>
+                    </ul>
+                    <div class="tip-box">
+                        <strong>Example:</strong> If you have 3 items costing $50, $30, and $20, enter "100"
+                    </div>
+                    <div class="error-box">
+                        <strong>Critical:</strong> Any discrepancies between this total and your receipt may delay processing.
+                    </div>
+                    <div class="warning-box">
+                        <strong>Remember:</strong> This amount will be transferred to your bank account.
+                    </div>
+                `
+            },
+            'account-name': {
+                title: 'Bank Account Name Requirements',
+                content: `
+                    <h3>Account holder name guidelines:</h3>
+                    <ul>
+                        <li>Enter the <strong>exact name</strong> as it appears on your bank account</li>
+                        <li>Must match your bank records <strong>exactly</strong></li>
+                        <li>Use the same name format as on your bank card or statement</li>
+                        <li>Include middle names if they appear on your account</li>
+                    </ul>
+                    <div class="tip-box">
+                        <strong>Example:</strong> "Peter Chan" (if this is exactly how it appears on your account)
+                    </div>
+                    <div class="error-box">
+                        <strong>Critical:</strong> Incorrect names will cause transfer failures and significant delays.
+                    </div>
+                    <div class="warning-box">
+                        <strong>Double-check:</strong> Verify the name against your bank card or latest statement.
+                    </div>
+                `
+            },
+            'account-number': {
+                title: 'Bank Account Number Guidelines',
+                content: `
+                    <h3>Account number requirements:</h3>
+                    <ul>
+                        <li>Enter your <strong>complete account number</strong></li>
+                        <li>Include spaces or dashes exactly as they appear on your card</li>
+                        <li>Double and triple-check for accuracy</li>
+                        <li>Do not include leading zeros unless they appear on your statement</li>
+                    </ul>
+                    <div class="tip-box">
+                        <strong>Example format:</strong> "571 3510 1147 5057" (with spaces as shown on your card)
+                    </div>
+                    <div class="error-box">
+                        <strong>Security reminder:</strong> Only enter your banking details on secure, official forms like this one.
+                    </div>
+                    <div class="warning-box">
+                        <strong>Verification tip:</strong> Check your account number against your latest bank statement.
+                    </div>
+                `
+            },
+            'bank-branch': {
+                title: 'Bank Branch Selection',
+                content: `
+                    <div class="error-box">
+                        <strong>IMPORTANT: We accept local banks only!</strong>
+                        <p style="margin-top: 8px;">Only Hong Kong local bank accounts are accepted for reimbursement. International or overseas bank accounts cannot be processed.</p>
+                    </div>
+                    
+                    <h3>Available banks in Hong Kong:</h3>
+                    <ul>
+                        <li><strong>Bank of China (BOC):</strong> One of the major local banks</li>
+                        <li><strong>Hang Seng Bank:</strong> Local Hong Kong bank</li>
+                        <li><strong>HSBC:</strong> The Hongkong and Shanghai Banking Corporation</li>
+                        <li><strong>Standard Charter:</strong> International bank with local presence</li>
+                        <li><strong>DBS:</strong> Development Bank of Singapore (Hong Kong branch)</li>
+                        <li><strong>BEA:</strong> Bank of East Asia</li>
+                        <li><strong>Other:</strong> For banks not listed above (specify in description if needed)</li>
+                    </ul>
+                    <div class="tip-box">
+                        <strong>Tip:</strong> Choose the bank that matches your account. This helps ensure smooth transfers.
+                    </div>
+                    <div class="warning-box">
+                        <strong>Note:</strong> If your bank is not listed, select "Other" and mention it in the description field above.
+                    </div>
+                `
+            },
+            'declaration-description': {
+                title: 'Declaration Description Field',
+                content: `
+                    <h3>About the declaration description:</h3>
+                    <ul>
+                        <li>This field is <strong>optional</strong> - you can leave it blank</li>
+                        <li>Use it to add any additional notes about your submission</li>
+                        <li>Helpful for special circumstances or clarifications</li>
+                        <li>Keep descriptions professional and relevant</li>
+                    </ul>
+                    <div class="tip-box">
+                        <strong>Example:</strong> "Emergency purchase for conference setup" or "Submitted after deadline due to technical issues"
+                    </div>
+                `
+            },
+            'declaration-conditions': {
+                title: 'Declaration Requirements',
+                content: `
+                    <h3>Understanding the reimbursement conditions:</h3>
+                    <div class="warning-box">
+                        <strong>Important:</strong> You must check BOTH boxes to confirm you understand and agree to these conditions.
+                    </div>
+                    
+                    <h3>Condition 1: 7-Day Submission Deadline</h3>
+                    <ul>
+                        <li>Submit this form <strong>within 7 days</strong> of making the purchase</li>
+                        <li>The deadline is calculated from the purchase date on your receipt</li>
+                        <li>Late submissions may result in delayed or denied reimbursement</li>
+                    </ul>
+                    
+                    <h3>Condition 2: Receipt Submission Requirements</h3>
+                    <ul>
+                        <li><strong>Digital receipts:</strong> Must be attached to this form</li>
+                        <li><strong>Physical receipts:</strong> Must be submitted to the finance team</li>
+                        <li>Both digital AND physical receipts are required for physical store purchases</li>
+                        <li>Online purchases require payment proof + digital receipt</li>
+                    </ul>
+                    
+                    <div class="error-box">
+                        <strong>Critical:</strong> Failure to meet these conditions will result in reimbursement being denied or delayed.
+                    </div>
+                    
+                    <div class="tip-box">
+                        <strong>Pro tip:</strong> Submit your form as soon as possible after purchase to avoid missing the deadline.
+                    </div>
+                `
+            },
+            'physical-receipt': {
+                title: 'Physical Receipt Instructions',
+                content: `
+                    <button onclick="showReceiptTypeSelection()" onmouseover="this.style.background='#e8f0fe'; this.style.transform='translateX(-3px)'" onmouseout="this.style.background='#f8f9fa'; this.style.transform='translateX(0)'" style="background: #f8f9fa; border: 1px solid #dadce0; color: #1a73e8; padding: 10px 20px; border-radius: 8px; font-size: 0.9rem; font-weight: 500; cursor: pointer; margin-bottom: 20px; transition: all 0.2s ease; display: inline-flex; align-items: center; gap: 8px;">
+                        <span style="font-size: 1.2rem;">←</span> Back to Receipt Types
+                    </button>
+                    
+                    <h3>Instructions for Physical Store Purchases:</h3>
+                    
+                    <h3>Step 1: Capture Your Receipt</h3>
+                    <ul>
+                        <li>Take a clear photo of your physical receipt</li>
+                        <li>Ensure all text is readable and not blurry</li>
+                        <li>Make sure the date, store name, items, and total are visible</li>
+                    </ul>
+                    
+                    <div class="tip-box">
+                        <strong>Photo Tips:</strong>
+                        <ul style="margin-top: 10px;">
+                            <li>Use good lighting - natural light works best</li>
+                            <li>Place receipt on a flat, dark surface for contrast</li>
+                            <li>Hold camera directly above to avoid distortion</li>
+                        </ul>
+                    </div>
+                    
+                    <h3>Step 2: Scan for Better Quality (Optional)</h3>
+                    <ul>
+                        <li>If receipt is fading or unclear, use a scanning app</li>
+                        <li><strong>Recommended app: Adobe Scan</strong> (free on iOS and Android)</li>
+                        <li>Scanning enhances clarity and creates a PDF file</li>
+                        <li>Apps auto-detect receipt edges and adjust brightness</li>
+                    </ul>
+                    
+                    <h3>Step 3: Upload to Google Form</h3>
+                    <ul>
+                        <li>Name your file: <strong>YourName_01</strong> (e.g., "Peter_01")</li>
+                        <li>Upload as PDF or image (JPG, PNG accepted)</li>
+                        <li>Verify file uploaded successfully before submitting</li>
+                    </ul>
+                    
+                    <h3>Step 4: Submit Physical Receipt</h3>
+                    <div class="error-box">
+                        <strong>CRITICAL - Don't Forget!</strong>
+                        <ul style="margin-top: 10px;">
+                            <li>Keep your original physical receipt</li>
+                            <li>Give the physical receipt to the OCF (Finance Team)</li>
+                            <li>Both digital AND physical receipts are required</li>
+                            <li>Without the physical copy, reimbursement may be denied</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="warning-box">
+                        <strong>Important Reminders:</strong>
+                        <ul style="margin-top: 10px;">
+                            <li>Submit within 7 days of purchase</li>
+                            <li>One receipt = one form submission</li>
+                            <li>Maximum 10 items per submission</li>
+                            <li>Contact OCF immediately if you have any issues</li>
+                        </ul>
+                    </div>
+                `
+            },
+            'online-receipt': {
+                title: 'Online Receipt Instructions',
+                content: `
+                    <button onclick="showReceiptTypeSelection()" onmouseover="this.style.background='#e8f0fe'; this.style.transform='translateX(-3px)'" onmouseout="this.style.background='#f8f9fa'; this.style.transform='translateX(0)'" style="background: #f8f9fa; border: 1px solid #dadce0; color: #1a73e8; padding: 10px 20px; border-radius: 8px; font-size: 0.9rem; font-weight: 500; cursor: pointer; margin-bottom: 20px; transition: all 0.2s ease; display: inline-flex; align-items: center; gap: 8px;">
+                        <span style="font-size: 1.2rem;">←</span> Back to Receipt Types
+                    </button>
+                    
+                    <h3>Instructions for Online Purchases:</h3>
+                    
+                    <h3>What You Need (2 Things Required):</h3>
+                    <div class="warning-box">
+                        <strong>You MUST provide BOTH:</strong>
+                        <ul style="margin-top: 10px;">
+                            <li>1. Payment Proof (transaction confirmation)</li>
+                            <li>2. Receipt/Order Details Screenshot</li>
+                        </ul>
+                    </div>
+                    
+                    <h3>1. Payment Proof</h3>
+                    <ul>
+                        <li>Screenshot showing payment was successful</li>
+                        <li>Should display: transaction ID, amount paid, date, merchant name</li>
+                        <li>Common sources: Alipay, WeChat Pay, credit card statement, PayPal</li>
+                        <li>Make sure screenshot shows your name or account identifier</li>
+                    </ul>
+                    
+                    <div class="tip-box">
+                        <strong>Example - Taobao/Alipay:</strong>
+                        <ul style="margin-top: 10px;">
+                            <li>Open your Alipay payment history</li>
+                            <li>Find the transaction for this purchase</li>
+                            <li>Take screenshot showing: amount, merchant, date, transaction ID</li>
+                        </ul>
+                    </div>
+                    
+                    <h3>2. Receipt/Order Details Screenshot</h3>
+                    <ul>
+                        <li>Screenshot of your order confirmation or receipt</li>
+                        <li>Should display: item names, quantities, individual prices, total</li>
+                        <li>Include order number and purchase date</li>
+                        <li>Get this from the shopping platform (e.g., Taobao order details)</li>
+                    </ul>
+                    
+                    <div class="tip-box">
+                        <strong>Where to Find Order Details:</strong>
+                        <ul style="margin-top: 10px;">
+                            <li><strong>Taobao:</strong> My Orders → Order Details</li>
+                            <li><strong>Amazon:</strong> Your Orders → Order Details</li>
+                            <li><strong>Other platforms:</strong> Check "My Orders" or "Order History"</li>
+                        </ul>
+                    </div>
+                    
+                    <h3>Step 3: Combine and Upload</h3>
+                    <ul>
+                        <li>You can combine both screenshots into one file (recommended)</li>
+                        <li>Or upload them as separate files (name them: YourName_01a, YourName_01b)</li>
+                        <li>Ensure both documents are clear and readable</li>
+                        <li>File format: PDF or image (JPG, PNG)</li>
+                    </ul>
+                    
+                    <div class="error-box">
+                        <strong>Common Mistakes to Avoid:</strong>
+                        <ul style="margin-top: 10px;">
+                            <li>Missing payment proof - receipt alone is not enough</li>
+                            <li>Screenshots too small or blurry to read</li>
+                            <li>Incomplete order details (missing item names or prices)</li>
+                            <li>Screenshots in foreign language without translation notes</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="warning-box">
+                        <strong>Important Notes:</strong>
+                        <ul style="margin-top: 10px;">
+                            <li>No physical receipt needed for online purchases</li>
+                            <li>Still must submit within 7 days of purchase</li>
+                            <li>One order = one form submission</li>
+                            <li>Maximum 10 items per submission</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="tip-box">
+                        <strong>Pro Tip:</strong> Take screenshots immediately after completing your online purchase while everything is still accessible. Some platforms hide old order details after time passes.
+                    </div>
+                `
+            }
+        };
+
+        // Add click listeners to question bubbles
+        questionBubbles.forEach(bubble => {
+            bubble.addEventListener('click', () => {
+                const modalId = bubble.dataset.modal;
+                const data = modalData[modalId];
+                
+                if (data) {
+                    modalTitle.textContent = data.title;
+                    modalContent.innerHTML = data.content;
+                    modal.classList.add('show');
+                    document.body.style.overflow = 'hidden';
+                    
+                    // Add event listeners to receipt type buttons inside modal
+                    const modalReceiptButtons = modalContent.querySelectorAll('.receipt-type-button');
+                    modalReceiptButtons.forEach(btn => {
+                        btn.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            const receiptType = btn.dataset.receiptType;
+                            const receiptData = modalData[receiptType + '-receipt'];
+                            
+                            if (receiptData) {
+                                modalTitle.textContent = receiptData.title;
+                                modalContent.innerHTML = receiptData.content;
+                            }
+                        });
+                    });
+                }
+            });
+        });
+
+        // Add click listeners to receipt type buttons in Section 5
+        const receiptTypeButtons = document.querySelectorAll('.receipt-type-button');
+        receiptTypeButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const receiptType = button.dataset.receiptType;
+                const data = modalData[receiptType + '-receipt'];
+                
+                if (data) {
+                    modalTitle.textContent = data.title;
+                    modalContent.innerHTML = data.content;
+                    modal.classList.add('show');
+                    document.body.style.overflow = 'hidden';
+                }
+            });
+        });
+
+        // Close modal functionality
+        function closeModal() {
+            modal.classList.remove('show');
+            document.body.style.overflow = 'auto';
+        }
+
+        closeButton.addEventListener('click', closeModal);
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        // Escape key to close modal
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.classList.contains('show')) {
+                closeModal();
+            }
+        });
+
+        // Practice form submission
+        const practiceForm = document.getElementById('practiceForm');
+        const practiceSuccess = document.getElementById('practiceSuccess');
+
+        if (practiceForm) {
+            practiceForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                // Hide form and show success message
+                practiceForm.style.display = 'none';
+                practiceSuccess.style.display = 'block';
+                
+                // Scroll to success message
+                practiceSuccess.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            });
+        }
+
+        // Reset practice form function
+        window.resetPracticeForm = function() {
+            practiceForm.reset();
+            practiceForm.style.display = 'block';
+            practiceSuccess.style.display = 'none';
+            
+            // Scroll back to top of form
+            practiceForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        };
+
+        // Show receipt type selection (back button functionality)
+        window.showReceiptTypeSelection = function() {
+            const data = modalData['receipt-upload'];
+            if (data) {
+                modalTitle.textContent = data.title;
+                modalContent.innerHTML = data.content;
+                
+                // Re-attach event listeners to the receipt type buttons
+                const modalReceiptButtons = modalContent.querySelectorAll('.receipt-type-button');
+                modalReceiptButtons.forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const receiptType = btn.dataset.receiptType;
+                        const receiptData = modalData[receiptType + '-receipt'];
+                        
+                        if (receiptData) {
+                            modalTitle.textContent = receiptData.title;
+                            modalContent.innerHTML = receiptData.content;
+                        }
+                    });
+                });
+            }
+        };
+    </script>
+</body>
+</html>
